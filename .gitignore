@@ -1,0 +1,22 @@
+.ace-tool/
+
+.DS_Store
+.env
+.artifacts/
+core/review-perf-helper
+
+# AITask runtime cache (keep bindings + static docs in git)
+.aitask/state/
+.aitask/current-task.md
+.aitask/context.md
+.aitask/handoff.md
+.aitask/progress.md
+.aitask/result.md
+.aitask/skills/*.md
+!.aitask/skills/README.md
+
+# Lazycat build artifacts
+aitask.lpk
+.lzc-manifest.rendered.yml
+.lzc-secrets.yml.local
+content/

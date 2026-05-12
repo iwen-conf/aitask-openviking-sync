@@ -1,0 +1,114 @@
+lzc-sdk-version: '2.0'
+
+application:
+  subdomain: aitask
+  background_task: true
+  routes:
+    - /=http://web:80
+  public_path:
+    - /
+
+services:
+  postgres:
+    image: __POSTGRES_IMAGE__
+    environment:
+      POSTGRES_DB: aitask
+      POSTGRES_USER: aitask
+      POSTGRES_PASSWORD: __POSTGRES_PASSWORD__
+    binds:
+      - /lzcapp/var/postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aitask -d aitask"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  dragonfly:
+    image: __DRAGONFLY_IMAGE__
+    command: --logtostderr --requirepass=__DRAGONFLY_PASSWORD__
+    environment:
+      DRAGONFLY_PASSWORD: __DRAGONFLY_PASSWORD__
+    binds:
+      - /lzcapp/var/dragonfly:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $$DRAGONFLY_PASSWORD ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  migrate-init:
+    image: docker.io/iluwenconf/aitask-migrate:v0.1.1
+    environment:
+      DATABASE_URL: postgres://aitask:__POSTGRES_PASSWORD__@postgres:5432/aitask?sslmode=disable
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "test", "-f", "/tmp/done"]
+      interval: 5s
+      timeout: 3s
+      retries: 60
+      start_period: 5s
+
+  backend:
+    image: docker.io/iluwenconf/aitask-backend:v0.1.1
+    environment:
+      AITASK_ENV: production
+      AITASK_HTTP_HOST: 0.0.0.0
+      AITASK_HTTP_PORT: '8080'
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: '5432'
+      POSTGRES_DB: aitask
+      POSTGRES_USER: aitask
+      POSTGRES_PASSWORD: __POSTGRES_PASSWORD__
+      DATABASE_URL: postgres://aitask:__POSTGRES_PASSWORD__@postgres:5432/aitask?sslmode=disable
+      DRAGONFLY_HOST: dragonfly
+      DRAGONFLY_PORT: '6379'
+      DRAGONFLY_PASSWORD: __DRAGONFLY_PASSWORD__
+      DRAGONFLY_URL: redis://:__DRAGONFLY_PASSWORD__@dragonfly:6379/0
+      OPENVIKING_NAMESPACE: aitask
+      OPENVIKING_SETTINGS_KEY: __OPENVIKING_SETTINGS_KEY__
+      AGENT_TOKEN_SECRET: __AGENT_TOKEN_SECRET__
+      CONSOLE_OPERATOR_LABEL: ezer-operator
+    depends_on:
+      - postgres
+      - dragonfly
+      - migrate-init
+      - openviking
+    healthcheck:
+      test: ["CMD", "/app/healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  openviking:
+    image: docker.io/iluwenconf/aitask-backend:v0.1.1
+    entrypoint: /app/aitask-openviking
+    environment:
+      OPENVIKING_HOST: 0.0.0.0
+      OPENVIKING_PORT: '9090'
+      OPENVIKING_DATA_DIR: /data
+    binds:
+      - /lzcapp/var/openviking:/data
+    healthcheck:
+      test: ["CMD", "/app/aitask-openviking", "--healthcheck", "http://127.0.0.1:9090/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  web:
+    image: docker.io/iluwenconf/aitask-web:v0.1.1
+    environment:
+      VITE_API_BASE_URL: ''
+      VITE_WS_BASE_URL: ''
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/healthz >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s

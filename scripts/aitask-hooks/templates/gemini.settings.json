@@ -1,0 +1,32 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear",
+        "hooks": [
+          {
+            "name": "aitask-session-start",
+            "type": "command",
+            "command": "$HOME/.gemini/hooks/aitask-session-start.sh",
+            "timeout": 10000,
+            "description": "Auto-launch aitask-watch daemon and seed session with recent actionable events."
+          }
+        ]
+      }
+    ],
+    "BeforeAgent": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "aitask-live-monitor",
+            "type": "command",
+            "command": "$HOME/.gemini/hooks/aitask-before-agent.sh",
+            "timeout": 5000,
+            "description": "Inject any new aitask mentions/delegations seen since the previous turn."
+          }
+        ]
+      }
+    ]
+  }
+}

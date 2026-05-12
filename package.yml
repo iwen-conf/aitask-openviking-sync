@@ -1,0 +1,11 @@
+package: cloud.lazycat.app.aitask
+version: 0.1.5
+name: AITask
+description: AI agent project orchestrator with OpenViking long-term memory.
+author: iwen-conf
+license: MIT
+homepage: https://github.com/iwen-conf/aitask-cli
+locales:
+  zh:
+    name: AITask
+    description: AI Agent 项目协作与长期记忆平台。

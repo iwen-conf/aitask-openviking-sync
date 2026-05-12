@@ -1,0 +1,276 @@
+/**
+ * 中文 (zh-CN) 全量字典。
+ *
+ * 这是项目的权威 i18n 来源，所有用户可见文案都应在这里定义对应键。
+ * 英文 (en) 字典 `./en.ts` 为占位，按需翻译；缺失键时 i18next 会回落到本字典。
+ *
+ * 命名约定：
+ * - 顶层 namespace 按业务域划分 (common / nav / project / task / agent / room / artifact / memory / settings / errors)
+ * - 第二层多用语义键 (action / status / group)
+ * - 字典只允许字符串值；不要在字典里塞复杂对象。
+ *
+ * 维护提醒：每次新增页面/组件，必须先在本文件登记 key，再用 `t()` 调用。
+ */
+
+const zhCN = {
+  common: {
+    loading: '加载中…',
+    retry: '重试',
+    save: '保存',
+    cancel: '取消',
+    confirm: '确认',
+    close: '关闭',
+    create: '创建',
+    edit: '编辑',
+    delete: '删除',
+    submit: '提交',
+    refresh: '刷新',
+    copy: '复制',
+    copied: '已复制',
+    copyFailed: '复制失败，请手动选择 ID',
+    idCopied: 'ID 已复制',
+    open: '打开',
+    optional: '(可选)',
+    required: '必填',
+    yes: '是',
+    no: '否',
+    pending: '待处理',
+    notSelected: '未选择',
+    none: '无',
+    all: '全部',
+    justNow: '刚刚',
+  },
+  language: {
+    label: '语言',
+    'zh-CN': '简体中文',
+    en: 'English',
+  },
+  nav: {
+    overview: '总览',
+    overviewHint: '项目概况',
+    tasks: '任务看板',
+    tasksHint: '按受托 Agent 分列',
+    room: 'Agent 协作室',
+    roomHint: '实时消息流',
+    memory: 'OpenViking',
+    memoryHint: '长期记忆',
+    artifacts: 'Artifacts',
+    artifactsHint: '产物归档',
+    agents: 'Agents',
+    agentsHint: 'Agent 状态',
+    settings: '项目设置',
+    settingsHint: 'Completion Policy',
+    systemSettings: '系统设置',
+    workspace: '当前工作区',
+    switchProject: '切换项目',
+    noProject: '未选择项目',
+    pickFromTopbar: '从右上角选择项目',
+    projectStatus: '项目状态',
+    progress: '进度',
+    newProject: '新建项目',
+  },
+  topbar: {
+    appName: 'AI Task Console',
+    operatorHint: '仅作为 operatorLabel 标记，不构成权限主体',
+    unreadMention: '未读 mention {{count}}',
+    status: {
+      open: '实时连接',
+      connecting: '连接中',
+      reconnecting: '重连中',
+      closed: '未连接',
+    },
+  },
+  project: {
+    status: {
+      draft: '草稿',
+      active: '进行中',
+      paused: '已暂停',
+      blocked: '阻塞',
+      reviewing: '审查中',
+      completed: '已完成',
+      archived: '已归档',
+    },
+  },
+  task: {
+    status: {
+      planned: '待委托',
+      delegated: '已委托',
+      running: '执行中',
+      submitted: '已提交',
+      reviewing: '审查中',
+      done: '已完成',
+      blocked: '已阻塞',
+      failed: '已失败',
+      cancelled: '已取消',
+    },
+    group: {
+      queue: '等待中',
+      running: '进行中',
+      blocked: '等待干预',
+      done: '已完成',
+    },
+    counter: '{{count}} 任务',
+    emptyColumn: '该节点当前队列为空',
+    notDelegated: '未委托',
+    delegatedTo: '受托 {{agent}}',
+    inDependencyGraph: {
+      blockedHint: '当前等待干预',
+    },
+    dependencyGraph: {
+      legendChild: '父子边',
+      legendDependency: '依赖边',
+      hint: '点击节点切换到对应任务',
+      role: {
+        current: '当前',
+        parent: '父级',
+        child: '子级',
+        dependency: '依赖',
+      },
+    },
+    card: {
+      dragHandle: '拖拽改派',
+      view: '查看详情',
+      cancel: '取消任务',
+      sourceLabel: '来源',
+      delegator: '委托者',
+      delegatorSystem: '系统',
+      reviewingHint: '状态：{{status}}，等待 reviewer 审核。',
+    },
+    detail: {
+      back: '返回看板',
+      notFound: '任务不存在或已被删除',
+      loading: '正在加载任务详情…',
+    },
+    subtree: {
+      empty: '尚无子任务。',
+      expand: '展开子任务',
+      collapse: '折叠子任务',
+      countSuffix: '{{count}} 项',
+    },
+    filter: {
+      searchPlaceholder: '按标题搜索',
+      statusPlaceholder: '状态',
+      assigneePlaceholder: '受托',
+      skillPlaceholder: 'Skill',
+      allStatus: '全部状态',
+      allAssignee: '全部受托',
+      allSkill: '全部 skill',
+      clear: '清空',
+    },
+    field: {
+      title: { label: '任务名', placeholder: '例如：搭建 WebSocket Pub/Sub' },
+      goal: {
+        label: '目标',
+        placeholder: '可执行的成功标准：前端能订阅项目内的实时事件流',
+        hint: '一句话写清「做完之后什么算成功」',
+      },
+      context: {
+        label: '背景',
+        placeholder: '为什么做、上下文、相关历史决策',
+        hint: '可选；让受托方理解动机的最短描述',
+      },
+      inputs: {
+        label: '输入',
+        placeholder: '现有 SSE 轮询代码、相关接口文档、上游服务清单',
+        hint: '可选；列出可直接复用的资源与上游依赖',
+      },
+      constraints: {
+        label: '约束',
+        placeholder: '不允许新增第三方 WebSocket 库；保持现有路由结构',
+        hint: '可选；写明什么不能动 / 必须复用的边界',
+      },
+      acceptance: {
+        label: '验收标准',
+        placeholder: 'Handler + 单元测试 + OpenAPI 补丁 全部 PR ready',
+        hint: '可被评审的交付标准',
+      },
+    },
+  },
+  agent: {
+    type: {
+      'claude-code': 'Claude Code',
+      codex: 'Codex',
+      gemini: 'Gemini',
+      system: 'System',
+    },
+    role: {
+      'claude-code': '协调 / 联调',
+      codex: '后端 / 数据库',
+      gemini: '前端 / UI',
+      system: '系统广播',
+    },
+    lane: {
+      codex: {
+        title: 'Backend & DB',
+        owns: 'Go service / 迁移 / API handler / 队列 / 业务逻辑',
+        avoids: '禁止改动 web/ 前端代码与样式',
+        skillPlaceholder: 'backend-api, database-migration',
+        contractPlaceholder: 'Handler + 集成测试 + OpenAPI patch',
+      },
+      gemini: {
+        title: 'Frontend & UI',
+        owns: 'React 组件 / 路由 / 设计系统 / 视觉打磨',
+        avoids: '禁止改动 core/ Go 代码或 migrations',
+        skillPlaceholder: 'frontend-ui, design-system',
+        contractPlaceholder: 'React 组件 + Storybook + a11y check',
+      },
+      'claude-code': {
+        title: 'Orchestrator & Integration',
+        owns: '联调 / E2E / 任务图编排 / 跨 lane review',
+        avoids: '不单独承担 lane 内的 BE 或 FE 实现',
+        skillPlaceholder: 'integration, e2e-test',
+        contractPlaceholder: 'Playwright spec 通过 + 联调记录',
+      },
+      system: {
+        title: 'System',
+        owns: '系统消息（不可委托）',
+        avoids: '',
+        skillPlaceholder: '',
+        contractPlaceholder: '',
+      },
+    },
+  },
+  errors: {
+    unknown: '未知错误',
+    network: '网络异常，请检查连接后重试',
+    notFound: '资源不存在',
+  },
+  settings: {
+    openviking: {
+      title: 'OpenViking 集成',
+      serverUrl: 'Server URL',
+      apiKey: 'API Key',
+      apiKeyPlaceholderSet: '已设置（清空请输入 null）',
+      apiKeyPlaceholderUnset: '未设置',
+      enableMemoryWrite: '允许写入记忆',
+      enableAutoSync: '自动同步',
+      saved: 'OpenViking 设置已保存',
+      saveFailed: '保存失败',
+      statusOk: '连通 {{latency}}ms',
+      statusFail: '连通失败',
+      project: {
+        title: 'OpenViking 索引',
+        description: '命名空间与工作区 ID 决定本项目在 OpenViking 中的索引坐标；服务地址与 API Key 在系统设置。',
+        namespace: 'Namespace',
+        workspaceId: 'Workspace ID',
+        saved: 'OpenViking 索引已保存',
+        saveFailed: '保存失败',
+      },
+    },
+  },
+  overview: {
+    metrics: '关键指标',
+    metricTotal: '总任务',
+    recentTasks: '近期任务',
+    recentMessages: '近期消息',
+    boardLink: '看板',
+    roomLink: '协作室',
+    emptyTasks: '暂无任务记录。',
+    emptyMessages: '暂无消息。',
+    descriptionFallback: '暂无补充描述',
+    policyLabel: 'Completion Policy：',
+    enterTasks: '进入任务看板',
+  },
+}
+
+export default zhCN

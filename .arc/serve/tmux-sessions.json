@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "project_root": "/Users/iluwen/Documents/Code/Lazycat/Projects/aitask",
+  "updated_at": "2026-05-05T16:07:58Z",
+  "sessions": [
+    {
+      "service_name": "stack",
+      "session_name": "arc-aitask-stack-c3d04618",
+      "cwd": "/Users/iluwen/Documents/Code/Lazycat/Projects/aitask",
+      "command": "COMPOSE_PROJECT_NAME=aitasklocal ENV_FILE=.arc/serve/devup.local.env bash scripts/dev-up.sh",
+      "ports": [
+        "18081",
+        "15533",
+        "16380",
+        "19191"
+      ],
+      "status": "missing",
+      "started_at": "2026-05-05T15:57:21Z",
+      "stopped_at": null,
+      "last_action": "restart",
+      "last_action_at": "2026-05-05T15:57:21Z",
+      "last_checked_at": "2026-05-05T16:07:58Z",
+      "managed_by": "arc:serve"
+    },
+    {
+      "service_name": "frontend",
+      "session_name": "arc-aitask-frontend-e41e0c23",
+      "cwd": "/Users/iluwen/Documents/Code/Lazycat/Projects/aitask/fronted",
+      "command": "VITE_DEV_PROXY_TARGET=http://127.0.0.1:18081 pnpm dev --host 0.0.0.0",
+      "ports": [
+        "5173"
+      ],
+      "status": "running",
+      "started_at": "2026-05-05T16:05:10Z",
+      "stopped_at": null,
+      "last_action": "restart",
+      "last_action_at": "2026-05-05T16:05:10Z",
+      "last_checked_at": "2026-05-05T16:07:58Z",
+      "managed_by": "arc:serve"
+    }
+  ]
+}
